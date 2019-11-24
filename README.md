@@ -9,6 +9,6 @@
 
 # java多线程
 
-- demo01-complefuture
+- demo00-complefuture
 
 多线程处理任务的时候，非常有用

@@ -26,3 +26,8 @@
 - demo01-springboot-rabbitmq
 
 简单队列的使用
+
+- demo02-work-queue
+
+工作队列
+

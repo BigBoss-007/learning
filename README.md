@@ -18,3 +18,11 @@
 - demo00-two-dbsource
 
 多数据源的切换
+
+# 消息
+
+## RabbitMQ
+
+- demo01-springboot-rabbitmq
+
+简单队列的使用

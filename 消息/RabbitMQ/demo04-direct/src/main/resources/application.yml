@@ -1,0 +1,19 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    # 开启发送失败退回
+    publisher-returns: true
+    #    设置消息确认类型
+    publisher-confirm-type: correlated
+    listener:
+      direct:
+        # 开启ACK
+        acknowledge-mode: manual
+        prefetch: 1
+      simple:
+        # 开启ACK
+        acknowledge-mode: manual

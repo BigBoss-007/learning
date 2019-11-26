@@ -34,3 +34,8 @@
 - demo03-fanout
 
 发布/订阅模式
+
+- demo04-direct
+
+路由模型
+

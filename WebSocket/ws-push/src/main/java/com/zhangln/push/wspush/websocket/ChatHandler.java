@@ -128,7 +128,6 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     private void regConnection(DataContent content, Channel currentChannel) {
 
         String tokenId = content.getTokenId();
-
 //        TODO 对tokenId进行合法性检查
         boolean checkResult = true;
 

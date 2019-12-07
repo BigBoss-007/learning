@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Ws客户端注册对象
@@ -17,11 +16,11 @@ import java.util.List;
 @ToString
 public class WsRegVo implements Serializable {
 
-    private String clientType;
-    private String app;
-    private String user;
-    private List<String> group;
-    private String areaCode;
-    private String country;
+    private String clientType = "";
+    private String app = "";
+    private String user = "";
+    private String group = "";
+    private String areaCode = "";
+    private String country = "";
 
 }

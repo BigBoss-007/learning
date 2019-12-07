@@ -1,4 +1,4 @@
-package com.zhangln.push.wspush.websocket;
+package com.zhangln.push.wspush.vo;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +16,6 @@ import java.io.Serializable;
 @Data
 @Builder
 public class WsRespVo implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * 推送id

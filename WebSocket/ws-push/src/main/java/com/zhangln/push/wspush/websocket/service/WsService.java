@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zhangln.push.wspush.entity.LogWsConnectEntity;
 import com.zhangln.push.wspush.service.ILogWsConnectService;
 import com.zhangln.push.wspush.vo.WsRegVo;
-import com.zhangln.push.wspush.websocket.WsRespVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +59,6 @@ public class WsService {
      */
     public void regSuccess(String id, String tokenId, WsRegVo wsRegVo) {
 //        不去更新connected时insert的数据，这里也是直接insert
-        if (CollectionUtils.isEmpty(wsRegVo.getGroup())) {
             LogWsConnectEntity logWsConnectEntity = LogWsConnectEntity.builder()
                     .channelId(id)
                     .status(0)
@@ -68,34 +66,13 @@ public class WsService {
                     .clientType(wsRegVo.getClientType())
                     .app(wsRegVo.getApp())
                     .user(wsRegVo.getUser())
-                    .group("")
+                    .group(wsRegVo.getGroup())
                     .areaCode(wsRegVo.getAreaCode())
                     .country(StringUtils.isEmpty(wsRegVo.getCountry()) ? "CN" : wsRegVo.getCountry())
                     .createTime(LocalDateTime.now())
                     .updateTime(LocalDateTime.now())
                     .build();
             iLogWsConnectService.save(logWsConnectEntity);
-        } else {
-            List<String> group = wsRegVo.getGroup();
-            List<LogWsConnectEntity> connectEntities = new ArrayList<>(group.size());
-            for (String groupName : group) {
-                LogWsConnectEntity logWsConnectEntity = LogWsConnectEntity.builder()
-                        .channelId(id)
-                        .status(0)
-                        .token(tokenId)
-                        .clientType(wsRegVo.getClientType())
-                        .app(wsRegVo.getApp())
-                        .user(wsRegVo.getUser())
-                        .group(groupName)
-                        .areaCode(wsRegVo.getAreaCode())
-                        .country(StringUtils.isEmpty(wsRegVo.getCountry()) ? "CN" : wsRegVo.getCountry())
-                        .createTime(LocalDateTime.now())
-                        .updateTime(LocalDateTime.now())
-                        .build();
-                connectEntities.add(logWsConnectEntity);
-            }
-            iLogWsConnectService.saveBatch(connectEntities);
-        }
     }
 
     /**

@@ -24,7 +24,8 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "/Users/zhangliuning/work/learning/WebSocket/ws-push";
+//        String projectPath = "/Users/zhangliuning/work/learning/WebSocket/ws-push";
+        String projectPath = "/Users/mac/work/learning/WebSocket/ws-push";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("sherry");
         gc.setOpen(false);
@@ -38,7 +39,7 @@ public class CodeGenerator {
 //        String modulName = "auth";
         String modulName = "wspush";
 //        TODO 填写表名，用逗号分隔
-        String tables = "reg_user";
+        String tables = "log_ws_connect";
         String scheName = "push";
 
         // 数据源配置

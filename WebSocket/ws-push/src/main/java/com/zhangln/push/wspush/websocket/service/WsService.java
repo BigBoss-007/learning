@@ -38,12 +38,6 @@ public class WsService {
                 .channelId(id)
                 .status(0)
                 .token("")
-                .clientType("")
-                .app("")
-                .user("")
-                .group("")
-                .areaCode("")
-                .country("CN")
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .build();
@@ -61,7 +55,7 @@ public class WsService {
 //        不去更新connected时insert的数据，这里也是直接insert
             LogWsConnectEntity logWsConnectEntity = LogWsConnectEntity.builder()
                     .channelId(id)
-                    .status(0)
+                    .status(1)
                     .token(tokenId)
                     .clientType(wsRegVo.getClientType())
                     .app(wsRegVo.getApp())

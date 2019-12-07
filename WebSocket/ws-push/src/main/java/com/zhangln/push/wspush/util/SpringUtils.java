@@ -3,11 +3,13 @@ package com.zhangln.push.wspush.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * @author mac
  * @description: 提供手动获取被spring管理的bean对象
  */
+@Component
 public class SpringUtils implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;

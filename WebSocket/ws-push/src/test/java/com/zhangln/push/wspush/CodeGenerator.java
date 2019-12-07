@@ -39,7 +39,7 @@ public class CodeGenerator {
 //        String modulName = "auth";
         String modulName = "wspush";
 //        TODO 填写表名，用逗号分隔
-        String tables = "log_ws_connect";
+        String tables = "log_push_task";
         String scheName = "push";
 
         // 数据源配置

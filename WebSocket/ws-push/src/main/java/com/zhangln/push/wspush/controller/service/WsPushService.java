@@ -1,9 +1,12 @@
 package com.zhangln.push.wspush.controller.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zhangln.push.wspush.entity.LogPushTaskEntity;
 import com.zhangln.push.wspush.entity.LogWsConnectEntity;
+import com.zhangln.push.wspush.service.ILogPushTaskService;
 import com.zhangln.push.wspush.service.ILogWsConnectService;
 import com.zhangln.push.wspush.vo.HttpWsPushCondition;
+import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class WsPushService {
 
     @Autowired
     private ILogWsConnectService iLogWsConnectService;
+    @Autowired
+    private ILogPushTaskService iLogPushTaskService;
 
     /**
      * 查询
@@ -42,12 +47,35 @@ public class WsPushService {
                 .eq(!StringUtils.isEmpty(condition.getAreaCode()), LogWsConnectEntity.AREA_CODE, condition.getAreaCode())
                 .eq(!StringUtils.isEmpty(condition.getCountry()), LogWsConnectEntity.COUNTRY, condition.getCountry())
         );
-        if (!CollectionUtils.isEmpty(list)){
+        if (!CollectionUtils.isEmpty(list)) {
             List<String> ids = list.stream()
                     .map(LogWsConnectEntity::getChannelId)
                     .collect(Collectors.toList());
             return ids;
         }
         return null;
+    }
+
+    /**
+     * 记录推送任务日志
+     *
+     * @param condition
+     * @param pushStr
+     * @param channel
+     */
+    public void savePushTask(HttpWsPushCondition condition, String pushStr, Channel channel) {
+        LogPushTaskEntity logPushTaskEntity = LogPushTaskEntity.builder()
+                .pushId(condition.getPushId())
+                .channelId(channel.id().asShortText())
+                .clientType(condition.getClientType())
+                .app(condition.getApp())
+                .user(condition.getUser())
+                .group(condition.getGroup())
+                .areaCode(condition.getAreaCode())
+                .country(condition.getCountry())
+                .content(pushStr)
+                .status(1)
+                .build();
+        iLogPushTaskService.save(logPushTaskEntity);
     }
 }

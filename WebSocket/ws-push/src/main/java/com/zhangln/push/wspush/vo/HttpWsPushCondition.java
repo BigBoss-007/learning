@@ -20,14 +20,13 @@ public class HttpWsPushCondition implements Serializable {
 
     @NotEmpty
     private String pushId;
-    private String clientType;
-    private String app;
-    private String user;
-    private String group;
-    private String areaCode;
-    private String country;
-    private String status;
-    private String pushType;
+    private String clientType = "";
+    private String app = "";
+    private String user = "";
+    private String group = "";
+    private String areaCode = "";
+    private String country = "CN";
+    private String pushType = "";
     //    json形式的字符串
-    private String content;
+    private String content = "";
 }

@@ -1,5 +1,8 @@
 package com.zhangln.push.wspush;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zhangln.push.wspush.service.ILogWsConnectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,12 +13,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WsPushApplication implements CommandLineRunner {
 
+    @Autowired
+    private ILogWsConnectService iLogWsConnectService;
+
     public static void main(String[] args) {
         SpringApplication.run(WsPushApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("TODO 下线注册在本实例上的客户端连接");
+//        全部下线
+        iLogWsConnectService.remove(new QueryWrapper<>());
     }
 }

@@ -30,7 +30,7 @@ public class WebSocketSeverInitializer extends ChannelInitializer<SocketChannel>
 
         //=========================以下是用于支持心跳============================
         //针对客户端，如果n分钟之内没有向服务器发送读写心跳，则主动断开
-        int n = 1;
+        int n = 10;
         pipeline.addLast(new IdleStateHandler(40, 50, 60 * n));
         //自定义的读写空闲状态检测
         pipeline.addLast(new HeartBeatHandler());

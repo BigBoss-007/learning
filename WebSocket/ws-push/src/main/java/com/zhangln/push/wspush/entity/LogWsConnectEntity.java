@@ -1,5 +1,6 @@
 package com.zhangln.push.wspush.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
@@ -59,8 +60,9 @@ public class LogWsConnectEntity implements Serializable {
     private String user;
 
     /**
-     * user所属群组，数组类型
+     * user所属群组
      */
+    @TableField("`group`")
     private String group;
 
     /**

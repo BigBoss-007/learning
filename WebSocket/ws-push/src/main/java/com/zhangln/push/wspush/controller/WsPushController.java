@@ -79,22 +79,28 @@ public class WsPushController {
         if (!CollectionUtils.isEmpty(channelIds)) {
             channelIds.stream()
                     .forEach(channelId -> {
-                        WsRespVo wsRespVo = WsRespVo.builder()
-                                .id(condition.getPushId())
-                                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()))
-                                .pushType(condition.getPushType())
-                                .code(200)
-                                .msg("正常")
-                                .data(condition.getContent())
-                                .build();
+                        try {
+                            WsRespVo wsRespVo = WsRespVo.builder()
+                                    .id(condition.getPushId())
+                                    .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()))
+                                    .pushType(condition.getPushType())
+                                    .code(200)
+                                    .msg("正常")
+                                    .data(condition.getContent())
+                                    .build();
 
-                        String pushStr = JSONObject.toJSONString(wsRespVo);
-                        log.info("向{}推送{}", channelId, pushStr);
+                            String pushStr = JSONObject.toJSONString(wsRespVo);
+                            log.info("向{}推送{}", channelId, pushStr);
 
-                        UserChannelRelation.get(channelId)
-                                .ifPresent(channel -> {
-                                    channel.writeAndFlush(new TextWebSocketFrame(pushStr));
-                                });
+                            UserChannelRelation.get(channelId)
+                                    .ifPresent(channel -> {
+                                        channel.writeAndFlush(new TextWebSocketFrame(pushStr));
+                                        wsPushService.savePushTask(condition, pushStr, channel);
+                                    });
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                        }
+
                     });
         } else {
             return ResponseEntity.ok(HttpResVo.buildError("无有效客户端连接，推送失败"));

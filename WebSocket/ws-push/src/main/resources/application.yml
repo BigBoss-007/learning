@@ -12,6 +12,9 @@ server:
 
 spring:
   profiles: DEV
+  redis:
+    host: localhost
+    password:
   rabbitmq:
     username: guest
     password: guest

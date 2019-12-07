@@ -1,6 +1,7 @@
 package com.zhangln.push.wspush.websocket;
 
 import com.zhangln.push.wspush.util.SpringUtils;
+import com.zhangln.push.wspush.websocket.service.WsService;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -41,9 +42,9 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
                 channel.close();
 
 
-//                更新数据库中的客户端连接状态 TODO
-//                WebSocketService webSocketService = SpringUtils.getBean(WebSocketService.class);
-//                webSocketService.devOffLine(channelId);
+//                更新数据库中的客户端连接状态
+                WsService wsService = SpringUtils.getBean(WsService.class);
+                wsService.offLine(channelId);
 
                 log.info("channel关闭后，本实例users的数量为：" + ChatHandler.users.size());
             }

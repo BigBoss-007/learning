@@ -39,7 +39,7 @@ public class WsRespVo implements Serializable {
     private String msg;
 
     /**
-     * 推送类型，定义在PushType类
+     * 推送类型
      */
     private String pushType;
 

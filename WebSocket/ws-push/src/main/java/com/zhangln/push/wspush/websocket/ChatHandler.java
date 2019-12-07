@@ -1,7 +1,10 @@
 package com.zhangln.push.wspush.websocket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhangln.push.wspush.controller.service.AccessService;
 import com.zhangln.push.wspush.util.SpringUtils;
+import com.zhangln.push.wspush.vo.WsRegVo;
+import com.zhangln.push.wspush.websocket.service.WsService;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -26,6 +29,7 @@ import java.util.Objects;
 @Slf4j
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
+
     /**
      * 定义channel集合,管理channel,传入全局事件执行器
      */
@@ -43,9 +47,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         log.info("新接入连接id:{}", ctx.channel().id());
         users.add(ctx.channel());
 
-//        TODO 设备连接日志
-//        WebSocketService webSocketService = SpringUtils.getBean(WebSocketService.class);
-//        webSocketService.devConnection(ctx.channel().id().asShortText());
+//        设备连接日志
+        WsService wsService = SpringUtils.getBean(WsService.class);
+        wsService.connected(ctx.channel().id().asShortText());
 
         log.info("当前客户端连接数：{}", users.size());
     }
@@ -92,7 +96,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
      * @param jsonObjStr
      */
     private void pageChange(String jsonObjStr) {
-//        TODO 后续再完善
+//        后续再完善
+        log.info("现在什么都不需要做");
         log.info(jsonObjStr);
     }
 
@@ -102,7 +107,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
      * @param jsonObjStr
      */
     private void execClientError(String jsonObjStr) {
-//        TODO 处理客户端异常
+//        处理客户端异常
+        log.info("现在什么都不需要做");
         log.error(jsonObjStr);
     }
 
@@ -113,10 +119,6 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
      */
     private void keepAlive(Channel currentChannel) {
         log.debug("收到来自channel为" + currentChannel.id().asShortText() + "的心跳包");
-
-//        TODO 设备心跳检测日志
-//        WebSocketService webSocketService = SpringUtils.getBean(WebSocketService.class);
-//        webSocketService.devHeartConn(currentChannel.id().asShortText());
     }
 
     /**
@@ -128,8 +130,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     private void regConnection(DataContent content, Channel currentChannel) {
 
         String tokenId = content.getTokenId();
-//        TODO 对tokenId进行合法性检查
-        boolean checkResult = true;
+//        对tokenId进行合法性检查
+        AccessService accessService = SpringUtils.getBean(AccessService.class);
+        boolean checkResult = accessService.exists(tokenId);
 
         if (!checkResult) {
             log.info("{} ws连接校验不通过", content.getTokenId());
@@ -142,21 +145,38 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
             ));
         } else {
 
-            log.info("注册成功了，id：{}", currentChannel.id().asShortText());
+            try {
+                log.info("注册成功了，id：{}", currentChannel.id().asShortText());
 
-            //将channel与userId放入对应的关系类中
-            UserChannelRelation.put(currentChannel.id().asShortText(), currentChannel);
+                //将channel与userId放入对应的关系类中
+                UserChannelRelation.put(currentChannel.id().asShortText(), currentChannel);
 
-//              TODO 注册信息记录到客户端在线表
-//            WebSocketService webSocketService = SpringUtils.getBean(WebSocketService.class);
-//            webSocketService.saveDevOnLine(orgId, clientType, userId, appId, currentChannel.id().asShortText());
+//              注册信息记录到客户端在线表
+                WsService wsService = SpringUtils.getBean(WsService.class);
+                String jsonObjStr = content.getJsonObjStr();
+                WsRegVo wsRegVo = JSONObject.parseObject(jsonObjStr, WsRegVo.class);
 
-            currentChannel.writeAndFlush(new TextWebSocketFrame(
-                    JSONObject.toJSONString(WsRespVo.builder()
-                            .code(HttpStatus.OK.value())
-                            .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()))
-                            .msg("连接成功").build())
-            ));
+//                完善注册信息
+                wsService.regSuccess(currentChannel.id().asShortText(), tokenId, wsRegVo);
+
+                currentChannel.writeAndFlush(new TextWebSocketFrame(
+                        JSONObject.toJSONString(WsRespVo.builder()
+                                .code(HttpStatus.OK.value())
+                                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()))
+                                .msg("连接成功").build())
+                ));
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                log.info("{} ws连接校验不通过", content.getTokenId());
+                users.remove(currentChannel);
+                currentChannel.writeAndFlush(new TextWebSocketFrame(
+                        JSONObject.toJSONString(WsRespVo.builder()
+                                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                                .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()))
+                                .msg("tokenId无效，注册失败").build())
+                ));
+            }
+
 
         }
     }
@@ -173,9 +193,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         String channelId = ctx.channel().id().asShortText();
         log.info("客户端被移除，channelId为：" + channelId);
 
-//        TODO 移除
-//        WebSocketService webSocketService = SpringUtils.getBean(WebSocketService.class);
-//        webSocketService.devOffLine(channelId);
+//        移除
+        WsService wsService = SpringUtils.getBean(WsService.class);
+        wsService.offLine(channelId);
 
         users.remove(ctx.channel());
     }
@@ -190,10 +210,11 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("出错啦, 原因是:" + cause.getMessage());
+        String channelId = ctx.channel().id().asShortText();
         ctx.channel().close();
-//        TODO 移除
-//        WebSocketService webSocketService = SpringUtils.getBean(WebSocketService.class);
-//        webSocketService.devOffLine(ctx.channel().id().asShortText());
+//        移除
+        WsService wsService = SpringUtils.getBean(WsService.class);
+        wsService.offLine(channelId);
 
         users.remove(ctx.channel());
     }

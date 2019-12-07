@@ -1,5 +1,7 @@
 package com.zhangln.push.wspush.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zhangln.push.wspush.vo.HttpResVo;
 import com.zhangln.push.wspush.websocket.UserChannelRelation;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class WsPushController {
 
+    /**
+     * 测试推送
+     * @param channelId
+     * @param msg
+     * @return
+     */
     @GetMapping(value = "/test1", params = {"channelId", "msg"})
     public ResponseEntity pushTest(String channelId, String msg) {
 
@@ -28,6 +36,15 @@ public class WsPushController {
                 });
 
         return ResponseEntity.ok("推送成功");
+    }
+
+    /**
+     * 测试http
+     * @return
+     */
+    @GetMapping("/test2")
+    public ResponseEntity httpTest(){
+        return ResponseEntity.ok(HttpResVo.success());
     }
 
 }

@@ -53,20 +53,26 @@ public class WsService {
      */
     public void regSuccess(String id, String tokenId, WsRegVo wsRegVo) {
 //        不去更新connected时insert的数据，这里也是直接insert
-            LogWsConnectEntity logWsConnectEntity = LogWsConnectEntity.builder()
-                    .channelId(id)
-                    .status(1)
-                    .token(tokenId)
-                    .clientType(wsRegVo.getClientType())
-                    .app(wsRegVo.getApp())
-                    .user(wsRegVo.getUser())
-                    .group(wsRegVo.getGroup())
-                    .areaCode(wsRegVo.getAreaCode())
-                    .country(StringUtils.isEmpty(wsRegVo.getCountry()) ? "CN" : wsRegVo.getCountry())
-                    .createTime(LocalDateTime.now())
-                    .updateTime(LocalDateTime.now())
-                    .build();
-            iLogWsConnectService.save(logWsConnectEntity);
+        LogWsConnectEntity logWsConnectEntity = LogWsConnectEntity.builder()
+                .channelId(id)
+                .status(1)
+                .token(tokenId)
+                .clientType(wsRegVo.getClientType())
+                .app(wsRegVo.getApp())
+                .user(wsRegVo.getUser())
+                .group(wsRegVo.getGroup())
+                .areaCode(wsRegVo.getAreaCode())
+                .country(StringUtils.isEmpty(wsRegVo.getCountry()) ? "CN" : wsRegVo.getCountry())
+                .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .build();
+        iLogWsConnectService.save(logWsConnectEntity);
+
+//            注册成功后，可以把连接上的那条记录删了
+        iLogWsConnectService.remove(new QueryWrapper<LogWsConnectEntity>()
+                .eq(LogWsConnectEntity.CHANNEL_ID, id)
+                .eq(LogWsConnectEntity.STATUS, 0));
+
     }
 
     /**

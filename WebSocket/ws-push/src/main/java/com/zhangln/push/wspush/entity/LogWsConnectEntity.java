@@ -77,6 +77,9 @@ public class LogWsConnectEntity implements Serializable {
     private LocalDateTime updateTime;
 
     private String serverHost;
+    /**
+     * 标记当前连接注册到了哪个推送实例上
+     */
     private String instanceFlag;
     private Integer serverPort;
 

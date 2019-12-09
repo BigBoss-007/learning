@@ -2,6 +2,7 @@ package com.zhangln.push.wspush.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhangln.push.wspush.controller.service.WsPushService;
+import com.zhangln.push.wspush.entity.LogPushTaskEntity;
 import com.zhangln.push.wspush.vo.HttpResVo;
 import com.zhangln.push.wspush.vo.HttpWsPushCondition;
 import com.zhangln.push.wspush.vo.WsRespVo;
@@ -107,7 +108,17 @@ public class WsPushController {
         }
 
 
-        return ResponseEntity.ok(HttpResVo.success());
+        return ResponseEntity.ok(HttpResVo.buildSuccess(condition.getPushId()));
+    }
 
+    /**
+     * 查询推送情况
+     * @return
+     */
+    @GetMapping("/msg")
+    public ResponseEntity getPushMsg(String pushId){
+        List<LogPushTaskEntity> logPushTaskEntities = wsPushService.getPushMsgs(pushId);
+
+        return ResponseEntity.ok(HttpResVo.buildSuccess(logPushTaskEntities));
     }
 }

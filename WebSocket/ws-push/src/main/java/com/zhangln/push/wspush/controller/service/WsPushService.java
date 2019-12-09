@@ -66,6 +66,7 @@ public class WsPushService {
     public void savePushTask(HttpWsPushCondition condition, String pushStr, Channel channel) {
         LogPushTaskEntity logPushTaskEntity = LogPushTaskEntity.builder()
                 .pushId(condition.getPushId())
+                .pushType(condition.getPushType())
                 .channelId(channel.id().asShortText())
                 .clientType(condition.getClientType())
                 .app(condition.getApp())
@@ -77,5 +78,15 @@ public class WsPushService {
                 .status(1)
                 .build();
         iLogPushTaskService.save(logPushTaskEntity);
+    }
+
+    /**
+     * 根据push_id查询推送详情
+     * @param pushId
+     * @return
+     */
+    public List<LogPushTaskEntity> getPushMsgs(String pushId) {
+        return iLogPushTaskService.list(new QueryWrapper<LogPushTaskEntity>()
+                .eq(LogPushTaskEntity.PUSH_ID, pushId));
     }
 }

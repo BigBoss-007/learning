@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zhangln.sms.sms.config.prop.AppProp;
 import com.zhangln.sms.sms.entity.AccessTokenEntity;
 import com.zhangln.sms.sms.entity.RegUserEntity;
-import com.zhangln.sms.sms.vo.GetTokenCondition;
+import com.zhangln.sms.sms.pojo.condition.GetTokenCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

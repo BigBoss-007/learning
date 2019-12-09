@@ -3,7 +3,7 @@ package com.zhangln.sms.sms.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.zhangln.sms.sms.config.prop.AppProp;
 import com.zhangln.sms.sms.service.AccessService;
-import com.zhangln.sms.sms.vo.HttpResVo;
+import com.zhangln.sms.sms.pojo.vo.HttpResVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

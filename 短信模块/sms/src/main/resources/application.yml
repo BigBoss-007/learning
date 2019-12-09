@@ -54,6 +54,11 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 
 user:
+  sms:
+    auth:
+      dahansantong:
+        username: ${dahansantong.username:testUsername}
+        password: ${dahansantong.password:testPassword}
   active: ${spring.profiles.active}
   ignoreUrl:
     - /access/token

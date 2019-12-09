@@ -1,6 +1,6 @@
 package com.zhangln.sms.sms.controller;
 
-import com.zhangln.sms.sms.vo.HttpResVo;
+import com.zhangln.sms.sms.pojo.vo.HttpResVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

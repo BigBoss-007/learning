@@ -1,4 +1,4 @@
-package com.zhangln.sms.sms.vo;
+package com.zhangln.sms.sms.pojo.condition;
 
 import lombok.Data;
 import lombok.ToString;

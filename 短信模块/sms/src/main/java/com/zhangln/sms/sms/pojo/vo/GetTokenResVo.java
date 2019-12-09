@@ -1,4 +1,4 @@
-package com.zhangln.sms.sms.vo;
+package com.zhangln.sms.sms.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

@@ -1,9 +1,9 @@
 package com.zhangln.sms.sms.controller;
 
+import com.zhangln.sms.sms.pojo.condition.GetTokenCondition;
 import com.zhangln.sms.sms.service.AccessService;
-import com.zhangln.sms.sms.vo.GetTokenCondition;
-import com.zhangln.sms.sms.vo.GetTokenResVo;
-import com.zhangln.sms.sms.vo.HttpResVo;
+import com.zhangln.sms.sms.pojo.vo.GetTokenResVo;
+import com.zhangln.sms.sms.pojo.vo.HttpResVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

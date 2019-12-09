@@ -109,6 +109,8 @@ public class WsService {
         List<LogWsConnectEntity> logWsConnectEntities = list.stream()
                 .map(logWsConnectEntity -> logWsConnectEntity.setStatus(3))
                 .collect(Collectors.toList());
-        iLogWsConnectService.updateBatchById(logWsConnectEntities);
+        if (!CollectionUtils.isEmpty(logWsConnectEntities)){
+            iLogWsConnectService.updateBatchById(logWsConnectEntities);
+        }
     }
 }

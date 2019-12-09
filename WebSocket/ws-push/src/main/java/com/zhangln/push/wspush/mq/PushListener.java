@@ -49,6 +49,7 @@ public class PushListener {
             HttpWsPushCondition httpWsPushCondition = (HttpWsPushCondition) o;
             log.info("处理一次异步推送：{}", JSONObject.toJSONString(httpWsPushCondition));
             HttpResVo httpResVo = wsPushService.commonPushService(httpWsPushCondition);
+            log.info("本次推送结果：{}",JSONObject.toJSONString(httpResVo));
 //            广播本次推送结果
             rabbitTemplate.convertAndSend("push-result", "", httpResVo);
         } catch (Exception e) {
@@ -79,7 +80,7 @@ public class PushListener {
              ObjectInputStream oii = new ObjectInputStream(bais);) {
             Object o = oii.readObject();
             HttpResVo httpResVo = (HttpResVo) o;
-            log.info("接收到一次MQ异步推送结果：", JSONObject.toJSONString(httpResVo));
+            log.info("接收到一次MQ异步推送结果：{}", JSONObject.toJSONString(httpResVo));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         } finally {

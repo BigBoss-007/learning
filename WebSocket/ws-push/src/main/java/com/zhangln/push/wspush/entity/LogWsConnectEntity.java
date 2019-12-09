@@ -76,6 +76,10 @@ public class LogWsConnectEntity implements Serializable {
 
     private LocalDateTime updateTime;
 
+    private String serverHost;
+    private String instanceFlag;
+    private Integer serverPort;
+
 
     public static final String PK_ID = "pk_id";
 
@@ -100,5 +104,8 @@ public class LogWsConnectEntity implements Serializable {
     public static final String CREATE_TIME = "create_time";
 
     public static final String UPDATE_TIME = "update_time";
+    public static final String SERVER_HOST = "server_host";
+    public static final String SERVER_PORT = "server_port";
+    public static final String INSTANCE_FLAG = "instance_flag";
 
 }

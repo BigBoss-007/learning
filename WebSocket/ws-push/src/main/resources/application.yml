@@ -19,6 +19,19 @@ spring:
     username: guest
     password: guest
     host: localhost
+    virtual-host: /push
+    # 开启发送失败退回
+    publisher-returns: true
+    #    设置消息确认类型
+    publisher-confirm-type: correlated
+    listener:
+      direct:
+        # 开启ACK
+        acknowledge-mode: manual
+        prefetch: 1
+      simple:
+        # 开启ACK
+        acknowledge-mode: manual
   datasource:
     username: root
     password: 123456
@@ -42,5 +55,6 @@ spring:
 
 user:
   active: ${spring.profiles.active}
+  wsPort: 10002
   ignoreUrl:
     - /access/token

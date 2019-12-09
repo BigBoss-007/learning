@@ -18,7 +18,6 @@ import java.io.Serializable;
 @ToString
 public class HttpWsPushCondition implements Serializable {
 
-    @NotEmpty
     private String pushId;
     private String clientType = "";
     private String app = "";

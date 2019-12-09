@@ -1,6 +1,7 @@
 package com.zhangln.push.wspush.websocket.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zhangln.push.wspush.config.prop.AppProp;
 import com.zhangln.push.wspush.entity.LogWsConnectEntity;
 import com.zhangln.push.wspush.service.ILogWsConnectService;
 import com.zhangln.push.wspush.vo.WsRegVo;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,9 @@ public class WsService {
     @Autowired
     private ILogWsConnectService iLogWsConnectService;
 
+    @Autowired
+    private AppProp appProp;
+
     /**
      * 设备连接，未注册
      *
@@ -40,6 +46,7 @@ public class WsService {
                 .token("")
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
+                .instanceFlag("")
                 .build();
         iLogWsConnectService.save(logWsConnectEntity);
     }
@@ -51,7 +58,7 @@ public class WsService {
      * @param tokenId
      * @param wsRegVo
      */
-    public void regSuccess(String id, String tokenId, WsRegVo wsRegVo) {
+    public void regSuccess(String id, String tokenId, WsRegVo wsRegVo) throws UnknownHostException {
 //        不去更新connected时insert的数据，这里也是直接insert
         LogWsConnectEntity logWsConnectEntity = LogWsConnectEntity.builder()
                 .channelId(id)
@@ -65,6 +72,9 @@ public class WsService {
                 .country(StringUtils.isEmpty(wsRegVo.getCountry()) ? "CN" : wsRegVo.getCountry())
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
+                .serverHost(InetAddress.getLocalHost().getHostAddress())
+                .serverPort(appProp.getWsPort())
+                .instanceFlag(this.getInstanceFlag())
                 .build();
         iLogWsConnectService.save(logWsConnectEntity);
 
@@ -73,6 +83,19 @@ public class WsService {
                 .eq(LogWsConnectEntity.CHANNEL_ID, id)
                 .eq(LogWsConnectEntity.STATUS, 0));
 
+    }
+
+    /**
+     * 计算实例标识
+     * 这个规则可以变化
+     * 这个计算规则的变化，往往和部署方式有关
+     *
+     * 第一版计算规则：运行环境的IP:PORT
+     *
+     * @return
+     */
+    public String getInstanceFlag() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostAddress()+":"+appProp.getWsPort();
     }
 
     /**

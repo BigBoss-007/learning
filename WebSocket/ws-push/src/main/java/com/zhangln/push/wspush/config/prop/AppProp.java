@@ -18,6 +18,8 @@ import java.util.List;
 public class AppProp {
 
     private String active;
+//    ws所使用的端口
+    private Integer wsPort;
     private List<String> ignoreUrl;
 
 }

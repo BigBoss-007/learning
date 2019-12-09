@@ -16,11 +16,14 @@
         <result column="country" property="country" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
+        <result column="server_host" property="serverHost" />
+        <result column="server_port" property="serverPort" />
+        <result column="instance_flag" property="instanceFlag" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        pk_id, channel_id, status, token, client_type, app, user, group, area_code, country, create_time, update_time
+        pk_id, channel_id, status, token, client_type, app, user, group, area_code, country, create_time, update_time,server_host,server_port,instance_flag
     </sql>
 
 </mapper>

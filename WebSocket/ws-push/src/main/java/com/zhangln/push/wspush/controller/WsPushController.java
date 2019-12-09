@@ -1,6 +1,7 @@
 package com.zhangln.push.wspush.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhangln.push.wspush.config.prop.AppProp;
 import com.zhangln.push.wspush.controller.service.WsPushService;
 import com.zhangln.push.wspush.entity.LogPushTaskEntity;
 import com.zhangln.push.wspush.vo.HttpResVo;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author sherry
@@ -71,45 +74,13 @@ public class WsPushController {
      * @return
      */
     @PostMapping("/common")
-    public ResponseEntity commonPush(@Validated HttpWsPushCondition condition) {
+    public ResponseEntity commonPush(@Validated HttpWsPushCondition condition) throws UnknownHostException {
+        HttpResVo httpResVo = wsPushService.commonPushService(condition);
+        return ResponseEntity.ok(httpResVo);
 
-//        查询channelId
-
-        List<String> channelIds = wsPushService.getChannelIds(condition);
-
-        if (!CollectionUtils.isEmpty(channelIds)) {
-            channelIds.stream()
-                    .forEach(channelId -> {
-                        try {
-                            WsRespVo wsRespVo = WsRespVo.builder()
-                                    .id(condition.getPushId())
-                                    .date(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()))
-                                    .pushType(condition.getPushType())
-                                    .code(200)
-                                    .msg("正常")
-                                    .data(condition.getContent())
-                                    .build();
-
-                            String pushStr = JSONObject.toJSONString(wsRespVo);
-                            log.info("向{}推送{}", channelId, pushStr);
-
-                            UserChannelRelation.get(channelId)
-                                    .ifPresent(channel -> {
-                                        channel.writeAndFlush(new TextWebSocketFrame(pushStr));
-                                        wsPushService.savePushTask(condition, pushStr, channel);
-                                    });
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
-
-                    });
-        } else {
-            return ResponseEntity.ok(HttpResVo.buildError("无有效客户端连接，推送失败"));
-        }
-
-
-        return ResponseEntity.ok(HttpResVo.buildSuccess(condition.getPushId()));
     }
+
+
 
     /**
      * 查询推送情况

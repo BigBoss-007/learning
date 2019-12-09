@@ -13,8 +13,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.AntPathMatcher;
 
-import java.net.InetAddress;
-
 /**
  * @author zhangliuning
  */
@@ -40,9 +38,6 @@ public class WsPushApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        String ip = InetAddress.getLocalHost().getHostAddress();
-        Integer port = appProp.getWsPort();
 
 //        全部下线
         iLogWsConnectService.remove(new QueryWrapper<LogWsConnectEntity>()

@@ -3,7 +3,6 @@ package com.zhangln.push.wspush.vo;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**

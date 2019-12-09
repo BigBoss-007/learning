@@ -1,6 +1,7 @@
 package com.zhangln.push.wspush;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zhangln.push.wspush.config.prop.AppProp;
 import com.zhangln.push.wspush.entity.RegUserEntity;
 import com.zhangln.push.wspush.service.IRegUserService;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,15 @@ class WsPushApplicationTests {
 
     @Autowired
     private IRegUserService iRegUserService;
+
+    @Autowired
+    private AppProp appProp;
+
+    @Test
+    public void testAppProp(){
+        System.out.println(appProp.getActive());
+        System.out.println(appProp.getIgnoreUrl());
+    }
 
     @Test
     void testRegUserQuerySuccess() {

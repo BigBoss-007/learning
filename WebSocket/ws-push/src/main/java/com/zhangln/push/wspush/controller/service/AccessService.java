@@ -2,6 +2,7 @@ package com.zhangln.push.wspush.controller.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zhangln.push.wspush.config.prop.AppProp;
 import com.zhangln.push.wspush.entity.AccessTokenEntity;
 import com.zhangln.push.wspush.entity.RegUserEntity;
 import com.zhangln.push.wspush.service.IAccessTokenService;
@@ -34,6 +35,9 @@ public class AccessService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private AppProp appProp;
 
     /**
      * 检查认证信息是否正确
@@ -108,12 +112,20 @@ public class AccessService {
 
     /**
      * 检查token是否存在
-     * @param access
+     *
+     * @param token
      * @return
      */
-    public boolean exists(String access) {
-        String key = "access:"+access;
+    public boolean exists(String token) {
+
+//        测试环境下，使用唯一的一个token就行
+        if ("DEV".equals(appProp.getActive())
+                && "testToken".equals(token)) {
+            return true;
+        }
+
+        String key = "access:" + token;
         Object o = redisTemplate.opsForValue().get(key);
-        return o!=null;
+        return o != null;
     }
 }

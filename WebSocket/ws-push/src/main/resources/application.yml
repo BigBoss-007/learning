@@ -39,3 +39,8 @@ spring:
       connection-init-sql: set names utf8mb4
       pool-name: DatebookHikariCP
     driver-class-name: com.mysql.jdbc.Driver
+
+user:
+  active: ${spring.profiles.active}
+  ignoreUrl:
+    - /access/token

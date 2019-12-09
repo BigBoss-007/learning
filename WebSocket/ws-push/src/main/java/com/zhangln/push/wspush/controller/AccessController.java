@@ -1,5 +1,6 @@
 package com.zhangln.push.wspush.controller;
 
+import com.zhangln.push.wspush.config.prop.AppProp;
 import com.zhangln.push.wspush.controller.service.AccessService;
 import com.zhangln.push.wspush.vo.GetTokenCondition;
 import com.zhangln.push.wspush.vo.GetTokenResVo;
@@ -30,6 +31,9 @@ public class AccessController {
 
     @Autowired
     private AccessService accessService;
+
+    @Autowired
+    private AppProp appProp;
 
     /**
      * 获取token

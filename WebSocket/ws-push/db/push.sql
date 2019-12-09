@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 07/12/2019 17:14:58
+ Date: 09/12/2019 16:59:45
 */
 
 SET NAMES utf8mb4;
@@ -56,7 +56,7 @@ COMMIT;
 DROP TABLE IF EXISTS `log_push_task`;
 CREATE TABLE `log_push_task` (
   `pk_id` varchar(31) COLLATE utf8mb4_bin NOT NULL,
-  `push_id` varchar(31) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '一次推送请求，一条记录',
+  `push_id` varchar(63) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '一次推送请求，一条记录',
   `channel_id` varchar(31) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `client_type` varchar(31) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `app` varchar(31) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
@@ -80,14 +80,10 @@ CREATE TABLE `log_push_task` (
 -- Records of log_push_task
 -- ----------------------------
 BEGIN;
-INSERT INTO `log_push_task` VALUES ('1203240885844762626', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:36', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:33\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240926026194946', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:46', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:46\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240957420560385', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:54', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:54\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240961497423874', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:55', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:55\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240964458602498', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:55', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:55\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240967499472897', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:56', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:56\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240969735036929', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:56', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:56\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
-INSERT INTO `log_push_task` VALUES ('1203240972020932609', '123', 'ecdff199', '', '', 'zln', '', '', '', '2019-12-07 17:12:57', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧\",\"date\":\"2019-12-07 17:12:57\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '');
+INSERT INTO `log_push_task` VALUES ('1203899911880327169', '123', '0e6b9492', '', '', 'zln', '', '', '', '2019-12-09 12:51:21', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧1111\",\"date\":\"2019-12-09 12:51:21\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '1');
+INSERT INTO `log_push_task` VALUES ('1203928571962241026', '123', '077f2744', '', '', 'zln', '', '', '', '2019-12-09 14:45:14', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧1111\",\"date\":\"2019-12-09 14:45:14\",\"id\":\"123\",\"msg\":\"正常\",\"pushType\":\"1\"}', '1');
+INSERT INTO `log_push_task` VALUES ('1203942281112055810', '7a8e6b11-96bc-45e1-a254-7acdafe0fad0', '16792b25', '', '', 'zln', '', '', '', '2019-12-09 15:39:42', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧1111\",\"date\":\"2019-12-09 15:39:42\",\"id\":\"7a8e6b11-96bc-45e1-a254-7acdafe0fad0\",\"msg\":\"正常\",\"pushType\":\"1\"}', '1');
+INSERT INTO `log_push_task` VALUES ('1203961766933991426', '13fde3f1-8335-4963-9e52-ec62a0bb64ca', '46efca06', '', '', 'zln', '', '', '', '2019-12-09 16:57:08', 1, '{\"code\":200,\"data\":\"随便推送点什么内容吧1111\",\"date\":\"2019-12-09 16:57:08\",\"id\":\"13fde3f1-8335-4963-9e52-ec62a0bb64ca\",\"msg\":\"正常\",\"pushType\":\"1\"}', '1');
 COMMIT;
 
 -- ----------------------------
@@ -107,6 +103,9 @@ CREATE TABLE `log_ws_connect` (
   `country` varchar(7) COLLATE utf8mb4_bin NOT NULL DEFAULT 'CN',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `server_host` varchar(127) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `server_port` int(11) NOT NULL DEFAULT '10002',
+  `instance_flag` varchar(127) COLLATE utf8mb4_bin NOT NULL COMMENT '实例标识，规则自定义',
   PRIMARY KEY (`pk_id`),
   KEY `log_ws_connect_app_index` (`app`),
   KEY `log_ws_connect_area_code_index` (`area_code`),
@@ -121,8 +120,7 @@ CREATE TABLE `log_ws_connect` (
 -- Records of log_ws_connect
 -- ----------------------------
 BEGIN;
-INSERT INTO `log_ws_connect` VALUES ('1203240844530868225', 'ecdff199', 0, '', '', '', '', '', '', 'CN', '2019-12-07 17:12:27', '2019-12-07 17:12:27');
-INSERT INTO `log_ws_connect` VALUES ('1203240844677668865', 'ecdff199', 1, 'dda94d0e-ca36-48e2-a303-21b2d9280d52', '', '', 'zln', '', '', 'CN', '2019-12-07 17:12:27', '2019-12-07 17:12:27');
+INSERT INTO `log_ws_connect` VALUES ('1203961676278304770', '46efca06', 1, 'testToken', '', '', 'zln', '', '', 'CN', '2019-12-09 16:56:47', '2019-12-09 16:56:47', '127.0.0.1', 10002, '127.0.0.1:10002');
 COMMIT;
 
 -- ----------------------------

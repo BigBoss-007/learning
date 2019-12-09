@@ -25,6 +25,7 @@ public class CommonTest {
         dataContent.setJsonObjStr(JSONObject.toJSONString(wsRegVo));
 
         System.out.println(JSONObject.toJSON(dataContent));
+        System.out.println(dataContent.getJsonObjStr());
 
     }
 }

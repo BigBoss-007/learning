@@ -48,6 +48,7 @@ public class UrlFilter implements Filter {
             boolean flag = antPathMatcher.match(tmp, url);
             if (flag) {
                 filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
         }
 

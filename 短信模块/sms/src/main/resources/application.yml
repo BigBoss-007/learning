@@ -59,6 +59,8 @@ user:
       dahansantong:
         username: ${dahansantong.username:testUsername}
         password: ${dahansantong.password:testPassword}
+        musername: ${dahansantong.musername:testUsername}
+        massword: ${dahansantong.mpassword:testPassword}
   active: ${spring.profiles.active}
   ignoreUrl:
     - /access/token

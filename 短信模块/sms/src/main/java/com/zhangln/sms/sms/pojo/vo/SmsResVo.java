@@ -1,7 +1,9 @@
 package com.zhangln.sms.sms.pojo.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SmsResVo implements Serializable {
 
     /**
@@ -30,6 +34,8 @@ public class SmsResVo implements Serializable {
     private String smsId;
     /**
      * 短信调用状态
+     * 1-调用成功
+     * 2-调用失败
      */
     private Integer smsStatus;
 

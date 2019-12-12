@@ -1,2 +1,7 @@
+*.class
+target
+*.jar
 .factorypath
+*.iml
 .project
+.idea
